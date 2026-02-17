@@ -1,18 +1,92 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 class Student
 {
-    public int Id { get; set; }
-    public string Name { get; set; }
-    public int Age { get; set; }
+    private int id;
+    private string name;
+    private int age;
+
+    public int Id
+    {
+        get => id;
+        set
+        {
+            if (value <= 0) throw new ArgumentException("Id must be positive.");
+            id = value;
+        }
+    }
+
+    public string Name
+    {
+        get => name;
+        set
+        {
+            if (string.IsNullOrWhiteSpace(value)) throw new ArgumentException("Name cannot be empty.");
+            name = value;
+        }
+    }
+
+    public int Age
+    {
+        get => age;
+        set
+        {
+            if (value <= 0) throw new ArgumentException("Age must be positive");
+            age = value;
+        }
+    }
+}
+
+interface IStudentManager
+{
+    void AddStudent(Student student);
+    void ViewStudents();
+    Student? FindStudent(int id);
+}
+
+class StudentManager : IStudentManager
+{
+    private readonly List<Student> students = new();
+
+    public void AddStudent(Student student)
+    {
+        if (students.Any(s => s.Id == student.Id))
+        {
+            Console.WriteLine("Student with this ID already exists.");
+            return;
+        }
+        students.Add(student);
+        Console.WriteLine("Student added successfully.");
+    }
+
+    public void ViewStudents()
+    {
+        if (!students.Any())
+        {
+            Console.WriteLine("No students found.");
+            return;
+        }
+
+        Console.WriteLine("\n---Student List---");
+        foreach (var student in students)
+        {
+            Console.WriteLine($"{student.Id} - {student.Name} - {student.Age}");
+        }
+    }
+
+    public Student? FindStudent(int id)
+    {
+        return students.FirstOrDefault(s => s.Id == id);
+    }
 }
 
 class Program
 {
     static void Main()
     {
-        List<Student> students = new List<Student>();
+        IStudentManager studentManager = new StudentManager();
         int choice = 0;
 
         while (choice != 3)
@@ -32,10 +106,10 @@ class Program
             switch (choice)
             {
                 case 1:
-                    AddStudent(students);
+                    AddStudentUI(studentManager);
                     break;
                 case 2:
-                    ViewStudents(students);
+                    studentManager.ViewStudents();
                     break;
                 case 3:
                     Console.WriteLine("Exiting program...");
@@ -47,34 +121,26 @@ class Program
         }
     }
 
-    static void AddStudent(List<Student> students)
+    static void AddStudentUI(IStudentManager manager)
     {
-        Console.WriteLine("Enter ID: ");
-        int id = int.Parse(Console.ReadLine());
-
-        Console.WriteLine("Enter Name: ");
-        string name = Console.ReadLine();
-
-        Console.WriteLine("Enter Age: ");
-        int age = int.Parse(Console.ReadLine());
-
-        students.Add(new Student { Id = id, Name = name, Age = age });
-
-        Console.WriteLine("Student added successfully.");
-    }
-
-    static void ViewStudents(List<Student> students)
-    {
-        if (students.Count == 0)
+        try
         {
-            Console.WriteLine("No students found.");
-            return;
+            Console.WriteLine("Enter ID: ");
+            int id = int.Parse(Console.ReadLine());
+
+            Console.WriteLine("Enter Name: ");
+            string name = Console.ReadLine();
+
+            Console.WriteLine("Enter Age: ");
+            int age = int.Parse(Console.ReadLine());
+
+            var student = new Student { Id = id, Name = name, Age = age };
+            manager.AddStudent(student);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error: {ex.Message}");
         }
 
-        Console.WriteLine("\n---Student List---");
-        foreach (var student in students)
-        {
-            Console.WriteLine($"{student.Id} - {student.Name} - {student.Age}");
-        }
     }
 }
