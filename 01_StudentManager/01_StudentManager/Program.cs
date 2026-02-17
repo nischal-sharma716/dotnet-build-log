@@ -1,123 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-
-class Student
-{
-    private int id;
-    private string name;
-    private int age;
-
-    public int Id
-    {
-        get => id;
-        set
-        {
-            if (value <= 0) throw new ArgumentException("Id must be positive.");
-            id = value;
-        }
-    }
-
-    public string Name
-    {
-        get => name;
-        set
-        {
-            if (string.IsNullOrWhiteSpace(value)) throw new ArgumentException("Name cannot be empty.");
-            name = value;
-        }
-    }
-
-    public int Age
-    {
-        get => age;
-        set
-        {
-            if (value <= 0) throw new ArgumentException("Age must be positive");
-            age = value;
-        }
-    }
-}
-
-interface IStudentManager
-{
-    void AddStudent(Student student);
-    void ViewStudents();
-    Student? FindStudent(int id);
-
-    bool DeleteStudent(int id);
-    bool UpdateStudent(int id, string newName, int newAge);
-    List<Student> SearchStudents(string namePart);
-}
-
-class StudentManager : IStudentManager
-{
-    private readonly List<Student> students = new();
-
-    public void AddStudent(Student student)
-    {
-        if (students.Any(s => s.Id == student.Id))
-        {
-            Console.WriteLine("Student with this ID already exists.");
-            return;
-        }
-        students.Add(student);
-        Console.WriteLine("Student added successfully.");
-    }
-
-    public void ViewStudents()
-    {
-        if (!students.Any())
-        {
-            Console.WriteLine("No students found.");
-            return;
-        }
-
-        Console.WriteLine("\n---Student List---");
-        foreach (var student in students)
-        {
-            Console.WriteLine($"{student.Id} - {student.Name} - {student.Age}");
-        }
-    }
-
-    public Student? FindStudent(int id)
-    {
-        return students.FirstOrDefault(s => s.Id == id);
-    }
-
-    public bool DeleteStudent(int id)
-    {
-        var student = FindStudent(id);
-        if (student == null) return false;
-        students.Remove(student);
-        return true;
-    }
-
-    public bool UpdateStudent(int id, string newName, int newAge)
-    {
-        var student = FindStudent(id);
-        if (student == null) return false;
-
-        try
-        {
-            student.Name = newName;
-            student.Age = newAge;
-            return true;
-        }
-        catch
-        {
-            return false;
-        }
-    }
-
-    public List<Student> SearchStudents(string namepart)
-    {
-        return students
-            .Where(s => s.Name.IndexOf(namepart, StringComparison.OrdinalIgnoreCase) >= 0)
-            .ToList();
-    }
-}
-
 class Program
 {
     static void Main()
@@ -190,6 +71,9 @@ class Program
             Console.WriteLine($"Error: {ex.Message}");
         }
 
+        Console.WriteLine("\nPress Enter to return to the main menu...");
+        Console.ReadLine();
+
     }
 
     static void UpdateStudentUI(IStudentManager manager)
@@ -215,17 +99,36 @@ class Program
             Console.WriteLine($"Error: {ex.Message}");
         }
 
+        Console.WriteLine("\nPress Enter to return to the main menu...");
+        Console.ReadLine();
+
     }
 
     static void DeleteStudentUI(IStudentManager manager)
     {
-       Console.WriteLine("Enter ID of student to delete: ");
-       int id = int.Parse(Console.ReadLine());
+        Console.WriteLine("Enter ID of student to delete: ");
+        int id = int.Parse(Console.ReadLine());
 
-       if (manager.DeleteStudent(id))
-            Console.WriteLine("Student deleted successfully.");
-       else
+        var student = manager.FindStudent(id);
+        if (student == null)
+        {
             Console.WriteLine("Student not found.");
+            return;
+        }
+
+        Console.Write($"Are you sure you want to delete {student.Name}? (Y/N)");
+        var confirm = Console.ReadLine()?.ToUpper();
+        if (confirm !="Y")
+        {
+            Console.WriteLine("Delete cancelled.");
+            return;
+        }
+
+        if (manager.DeleteStudent(id))
+            Console.WriteLine("Student deleted Successfully.");
+
+        Console.WriteLine("\nPress Enter to return to the main menu...");
+        Console.ReadLine();
     }
 
     static void SearchStudentUI(IStudentManager manager)
@@ -245,5 +148,9 @@ class Program
         {
             Console.WriteLine($"{s.Id} - {s.Name} - {s.Age}"); 
         }
+
+        Console.WriteLine("\nPress Enter to return to the main menu...");
+        Console.ReadLine();
     }
+
 }
