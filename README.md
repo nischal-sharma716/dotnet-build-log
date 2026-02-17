@@ -8,6 +8,20 @@ This repository documents my progress as I build practical projects and strength
 
 Each folder represents daily progress or a focused mini-project.
 
-## Goal
+## Goals
 
-Consistent improvement. Clean code. Practical learning.
+- Develop a strong understanding of C# and .NET OOP principles.
+- Practice Entity Framework Core, LINQ, and ASP.NET Core.
+- Build clean, maintainable, and testable code.
+
+## Day 1: Student Management System & OOP Refactoring
+
+**Activity:**  
+- Built a basic console-based Student Management System to add and view students.
+- Refactored the code for better OOP structure:
+  - Added StudentManager class and IStudentManager interface.
+  - Applied encapsulation in the Student class with input validation.
+  - Separated UI (Program class) from business logic.
+- Implemented LINQ queries for duplicate checks and searching.
+- Improved error handling, maintainability, and scalability.
+
