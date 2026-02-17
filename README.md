@@ -17,11 +17,13 @@ Each folder represents daily progress or a focused mini-project.
 ## Day 1: Student Management System & OOP Refactoring
 
 **Activity:**  
-- Built a basic console-based Student Management System to add and view students.
-- Refactored the code for better OOP structure:
+- Built a basic console-based Student Management System to add and view students.  
+- Refactored the code for better **OOP structure**:
   - Added StudentManager class and IStudentManager interface.
   - Applied encapsulation in the Student class with input validation.
   - Separated UI (Program class) from business logic.
-- Implemented LINQ queries for duplicate checks and searching.
+- Implemented **full CRUD operations**: Add, View, Update, Delete, and Search students.  
+- Fixed menu loop to correctly handle all options and prevent accidental exits.  
 - Improved error handling, maintainability, and scalability.
+
 
