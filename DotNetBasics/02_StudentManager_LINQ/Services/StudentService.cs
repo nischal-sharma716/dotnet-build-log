@@ -27,5 +27,48 @@ namespace _02_StudentManager_LINQ.Services
                 Console.WriteLine($"{student.Name} - {student.Age} - {student.GPA}");
             }
         }
+
+        public void ShowOlderThan20()
+        {
+            var result = students.Where(s => s.Age > 20);
+            foreach (var student in result)
+            {
+                Console.WriteLine($"{student.Name} - {student.Age}");
+            }
+        }
+
+        public void FindByName(string name)
+        {
+            var student = students.FirstOrDefault(s => s.Name == name);
+
+            if (student != null)
+                Console.WriteLine($"{student.Name} found.");
+            else
+                Console.WriteLine("Stident not found.");
+        }
+
+        public void SortByGPA()
+        {
+            var sorted =  students.OrderByDescending(s => s.GPA);
+
+            foreach (var student in sorted)
+            {
+                Console.WriteLine($"{student.Name} - {student.GPA}");
+            }
+        }
+
+        public void CheckHighPerformer()
+        {
+            bool exists = students.Any(s => s.GPA > 3.8);
+
+            Console.WriteLine(exists ? "High performer exists." : "No high performer.");
+        }
+
+        public void CountGoodStudents()
+        {
+            int count = students.Count(s => s.GPA > 3.5);
+
+            Console.WriteLine($"Students above 3.5 GPA: {count}");
+        }
     }
 }
