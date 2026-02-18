@@ -26,4 +26,15 @@ Each folder represents daily progress or a focused mini-project.
 - Fixed menu loop to correctly handle all options and prevent accidental exits.  
 - Improved error handling, maintainability, and scalability.
 
+## Day 2 : LINQ Practice
+
+**Project:** 02_StudentManager_LINQ (Console App)
+
+**Concepts Learned:**
+- LINQ basics: filtering, searching, sorting, existence checks, counting
+- Lambda expressions (`s => s.Property`)
+- `Where()`, `FirstOrDefault()`, `OrderByDescending()`, `Any()`, `Count()`
+- Functional-style thinking on collections
+- Structuring a console app with `Models` and `Services`
+
 
