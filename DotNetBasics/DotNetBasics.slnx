@@ -1,3 +1,4 @@
 <Solution>
   <Project Path="01_StudentManager/01_StudentManager.csproj" />
+  <Project Path="02_StudentManager_LINQ/02_StudentManager_LINQ.csproj" Id="1bfc8f54-b4f1-48e5-9e14-8af7422ddbb3" />
 </Solution>
