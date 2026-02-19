@@ -22,6 +22,33 @@ namespace _03_StudentManager_MVC.Services
             return _students;
         }
 
+        public List<Student> GetStudentsOlderThan(int age)
+        {
+            return _students.Where(s => s.Age > age).ToList();
+        }
+
+        public List<Student> GetTopStudents(int count)
+        {
+            return _students.OrderByDescending(s => s.GPA).Take(count).ToList();
+        }
+
+        public bool AnyHighGPA(double threshold)
+        {
+            return _students.Any(s => s.GPA > threshold);
+        }
+
+        public int CountLowGPA(double threshold)
+        {
+            return _students.Count(s => s.GPA < threshold);
+        }
+
+        public List<Student> SearchByName(string name)
+        {
+            return _students
+                .Where(s => s.Name.Contains(name, StringComparison.OrdinalIgnoreCase))
+                .ToList();
+        }
+
         public void AddStudent(Student student)
         {
             _students.Add(student);
