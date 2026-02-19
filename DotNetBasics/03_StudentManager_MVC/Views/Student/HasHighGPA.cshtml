@@ -1,2 +1,12 @@
 ﻿<h2>Check High GPA</h2>
-<p>@ViewBag.Message</p>
+
+<form method="get" asp-action="HasHighGPA">
+    <label>Enter GPA Threshold:</label>
+    <input type="number" step="0.1" name="threshold" value="3.7" />
+    <button type="submit">Check</button>
+</form>
+
+@if (ViewBag.Message != null)
+{
+    <p>@ViewBag.Message</p>
+}

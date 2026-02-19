@@ -1,2 +1,12 @@
 ﻿<h2>Count Students with Low GPA</h2>
-<p>@ViewBag.Message</p>
+
+<form method="get" asp-action="CountLowGPA">
+    <label>Enter GPA Threshold:</label>
+    <input type="number" step="0.1" name="threshold" value="3.6" />
+    <button type="submit">Count</button>
+</form>
+
+@if (ViewBag.Message != null)
+{
+    <p>@ViewBag.Message</p>
+}

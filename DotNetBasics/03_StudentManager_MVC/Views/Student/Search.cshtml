@@ -2,19 +2,32 @@
 
 <h2>Search Students by Name</h2>
 
-<table border="1">
-    <thead>
-        <tr><th>Id</th><th>Name</th><th>Age</th><th>GPA</th></tr>
-    </thead>
-    <tbody>
-        @foreach (var student in Model)
-        {
-            <tr>
-                <td>@student.Id</td>
-                <td>@student.Name</td>
-                <td>@student.Age</td>
-                <td>@student.GPA</td>
-            </tr>
-        }
-    </tbody>
-</table>
+<form method="get" asp-action="Search">
+    <label>Enter Name:</label>
+    <input type="text" name="name" value="Ram" />
+    <button type="submit">Search</button>
+</form>
+
+@if (Model != null && Model.Any())
+{
+    <table border="1" style="margin-top:10px;">
+        <thead>
+            <tr><th>Id</th><th>Name</th><th>Age</th><th>GPA</th></tr>
+        </thead>
+        <tbody>
+            @foreach (var student in Model)
+            {
+                <tr>
+                    <td>@student.Id</td>
+                    <td>@student.Name</td>
+                    <td>@student.Age</td>
+                    <td>@student.GPA</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>No students found.</p>
+}

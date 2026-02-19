@@ -2,24 +2,37 @@
 
 <h2>Students Older Than Specified Age</h2>
 
-<table border="1">
-    <thead>
-        <tr>
-            <th>Id</th>
-            <th>Name</th>
-            <th>Age</th>
-            <th>GPA</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var student in Model)
-        {
+<form method="get" asp-action="OlderThan">
+    <label>Enter Minimum Age:</label>
+    <input type="number" name="age" value="20" />
+    <button type="submit">Filter</button>
+</form>
+
+@if (Model != null && Model.Any())
+{
+    <table border="1" style="margin-top:10px;">
+        <thead>
             <tr>
-                <td>@student.Id</td>
-                <td>@student.Name</td>
-                <td>@student.Age</td>
-                <td>@student.GPA</td>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Age</th>
+                <th>GPA</th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var student in Model)
+            {
+                <tr>
+                    <td>@student.Id</td>
+                    <td>@student.Name</td>
+                    <td>@student.Age</td>
+                    <td>@student.GPA</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>No students match the criteria.</p>
+}
