@@ -51,6 +51,24 @@ Each folder represents daily progress or a focused mini-project.
 **Outcome:**  
 - Fully interactive MVC project using LINQ, ready for database integration in the next steps.
 
+## Day 4: Database Integration with EF Core (Final Day of Core Learning)
+
+**Activity:**  
+- Upgraded the Day 3 MVC project to use **SQLite database** with **Entity Framework Core**.  
+- Replaced in-memory student list with database-backed **CRUD operations**.  
+- Implemented `AppDbContext` to manage database access.  
+- Updated `StudentService` and `StudentController` to work asynchronously with EF Core.  
+- Configured **Dependency Injection** for services and DbContext.  
+- Learned about **design-time DbContext factories** to support migrations in ASP.NET Core minimal hosting.
+
+**Outcome:**  
+- Project now demonstrates a complete workflow: MVC → Service → Database.  
+- This marks the **last day of foundational .NET learning**, consolidating C#, ASP.NET Core, LINQ, EF Core, and basic MVC patterns.
+
+**Next Steps:**  
+- Moving forward, a new repository will be created for a **real-life project**, implementing more advanced concepts such as full database integration, containerization, additional libraries, and frameworks.  
+- This new project will allow applying all foundational knowledge in a professional, real-world scenario.
+
 
 
 
