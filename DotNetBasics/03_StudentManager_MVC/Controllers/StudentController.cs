@@ -2,54 +2,94 @@
 using _03_StudentManager_MVC.Models;
 using _03_StudentManager_MVC.Services;
 
-
 namespace _03_StudentManager_MVC.Controllers
 {
     public class StudentController : Controller
     {
         private readonly StudentService _studentService;
 
-        public StudentController()
+        public StudentController(StudentService studentService)
         {
-            _studentService = new StudentService();
+            _studentService = studentService;
         }
 
-        public IActionResult Index()
+        // GET: /Student
+        public async Task<IActionResult> Index()
         {
-            var students = _studentService.GetAll();
-            return View(students);
-        }
-        public IActionResult OlderThan(int age = 20)
-        {
-            var students = _studentService.GetStudentsOlderThan(age);
+            var students = await _studentService.GetAllStudentsAsync();
             return View(students);
         }
 
-        public IActionResult TopStudents(int count = 2)
+        // GET: /Student/Details/5
+        public async Task<IActionResult> Details(int id)
         {
-            var students = _studentService.GetTopStudents(count);
-            return View(students);
+            var student = await _studentService.GetStudentByIdAsync(id);
+            if (student == null)
+                return NotFound();
+
+            return View(student);
         }
 
-        public IActionResult HasHighGPA(double threshold = 3.7)
+        // GET: /Student/Create
+        public IActionResult Create()
         {
-            var result = _studentService.AnyHighGPA(threshold);
-            ViewBag.Message = result ? $"There is at least one student with GPA above {threshold}" : $"No student has GPA above {threshold}";
             return View();
         }
 
-        public IActionResult CountLowGPA(double threshold = 3.6)
+        // POST: /Student/Create
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(Student student)
         {
-            var count = _studentService.CountLowGPA(threshold);
-            ViewBag.Message = $"Number of students with GPA below {threshold}: {count}";
-            return View();
+            if (!ModelState.IsValid)
+                return View(student);
+
+            await _studentService.AddStudentAsync(student);
+            return RedirectToAction(nameof(Index));
         }
 
-        public IActionResult Search(string name = "Ram")
+        // GET: /Student/Edit/5
+        public async Task<IActionResult> Edit(int id)
         {
-            var students = _studentService.SearchByName(name);
-            return View(students);
+            var student = await _studentService.GetStudentByIdAsync(id);
+            if (student == null)
+                return NotFound();
+
+            return View(student);
         }
 
+        // POST: /Student/Edit/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, Student student)
+        {
+            if (id != student.Id)
+                return BadRequest();
+
+            if (!ModelState.IsValid)
+                return View(student);
+
+            await _studentService.UpdateStudentAsync(student);
+            return RedirectToAction(nameof(Index));
+        }
+
+        // GET: /Student/Delete/5
+        public async Task<IActionResult> Delete(int id)
+        {
+            var student = await _studentService.GetStudentByIdAsync(id);
+            if (student == null)
+                return NotFound();
+
+            return View(student);
+        }
+
+        // POST: /Student/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            await _studentService.DeleteStudentAsync(id);
+            return RedirectToAction(nameof(Index));
+        }
     }
 }

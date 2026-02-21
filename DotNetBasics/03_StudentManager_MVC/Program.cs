@@ -1,7 +1,15 @@
+using Microsoft.EntityFrameworkCore;
+using _03_StudentManager_MVC.Data;
+using _03_StudentManager_MVC.Services;
+
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddScoped<StudentService>();
+
+builder.Services.AddDbContext<AppDbContext>(OptionsBuilderConfigurationExtensions => OptionsBuilderConfigurationExtensions.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 var app = builder.Build();
 
